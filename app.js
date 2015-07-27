@@ -14,7 +14,7 @@
     }, function (data) {
         return data.imdbVotes > 6.5 && data.poster !== '';
     });
-    api.listen(8080, function (runtimeFrom, runtimeTo) {
+    api.listen(process.env.PORT || 8080, function (runtimeFrom, runtimeTo) {
         return movies.chain().where(function (obj) {
             return obj.runtimeParsed > runtimeFrom && obj.runtimeParsed < runtimeTo;
         }).data();
