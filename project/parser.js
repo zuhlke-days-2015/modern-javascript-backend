@@ -8,7 +8,7 @@
         Stream = require('stream'),
         Timestring = require('timestring');
 
-    exports.parse = function (path, processParsedLine) {
+    exports.parse = function (path, processParsedLine, filter) {
         var parser = csv.parse({
                 delimiter: '\t',
                 encoding: 'UTF-8'
@@ -29,14 +29,16 @@
                             imdbID: output[0][1],
                             title: output[0][2],
                             year: output[0][3],
-                            rating: output[0][4],
+                            imdbVotes: output[0][12],
                             runtimeOriginal: output[0][5],
                             runtimeParsed: timestring.parse(output[0][5]),
                             genre: output[0][6],
                             released: output[0][7],
                             poster: output[0][14]
                         };
-                        processParsedLine(result);
+                        if (filter !== undefined && filter(result)) {
+                            processParsedLine(result);
+                        }
                     }
                 } catch (e) {
                     console.log('error while parsing', output, e);

@@ -11,6 +11,8 @@
 
     parser.parse(__dirname + '/project/data/omdbMovies.txt', function (data) {
         movies.insert(data);
+    }, function (data) {
+        return data.imdbVotes > 6.5 && data.poster !== '';
     });
     api.listen(8080, function (runtimeFrom, runtimeTo) {
         return movies.chain().where(function (obj) {
