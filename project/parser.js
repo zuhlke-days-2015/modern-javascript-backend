@@ -8,7 +8,7 @@
         Stream = require('stream'),
         Timestring = require('timestring');
 
-    exports.parse = function (path, processParsedLine, filter) {
+    exports.parse = function (path, processParsedLine, filter, finished) {
         var parser = csv.parse({
                 delimiter: '\t',
                 encoding: 'UTF-8'
@@ -34,7 +34,8 @@
                             runtimeParsed: timestring.parse(output[0][5]),
                             genre: output[0][6],
                             released: output[0][7],
-                            poster: output[0][14]
+                            poster: output[0][14],
+                            language: output[0][17]
                         };
                         if (filter !== undefined && filter(result)) {
                             processParsedLine(result);
@@ -46,8 +47,6 @@
             });
         });
 
-        rl.on('close', function () {
-            console.log('sweet! all movies loaded');
-        });
+        rl.on('close', finished);
     };
 }());
