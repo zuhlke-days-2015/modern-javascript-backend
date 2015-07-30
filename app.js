@@ -4,6 +4,7 @@
     'use strict';
 
     var fs = require('fs'),
+        config = require('./config'),
         parser = require('./project/parser.js'),
         api = require('./project/api.js'),
         loki = require('lokijs'),
@@ -34,7 +35,7 @@
     });
 
 
-    api.listen(process.env.PORT || 8080, function (runtimeFrom, runtimeTo) {
+    api.listen(process.env.PORT || 8080, config.apikey, function (runtimeFrom, runtimeTo) {
         return movies.chain().where(function (obj) {
             return obj.runtimeParsed > runtimeFrom && obj.runtimeParsed < runtimeTo;
         }).data();
