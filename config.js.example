@@ -1,3 +1,4 @@
 module.exports = {
-    apikey: 'abc'
+    apikey: 'abc',
+    originalMoviesFile: '/project/data/omdbMovies.txt'
 }
