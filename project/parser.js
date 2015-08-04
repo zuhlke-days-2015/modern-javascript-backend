@@ -8,7 +8,7 @@
         Stream = require('stream'),
         Timestring = require('timestring');
 
-    exports.parse = function (path, processParsedLine, filter, finished) {
+    exports.parse = function (path, processParsedLine, filter) {
         var parser = csv.parse({
                 delimiter: '\t',
                 encoding: 'UTF-8'
@@ -27,6 +27,8 @@
                         var result = {
                             id: output[0][0],
                             imdbID: output[0][1],
+                            omdbImgUrl: 'http://img.omdbapi.com/?i=' + output[0][1],
+                            imdbUrl: 'http://www.imdb.com/title/' + output[0][1],
                             title: output[0][2],
                             year: output[0][3],
                             imdbVotes: output[0][12],
@@ -37,6 +39,7 @@
                             poster: output[0][14],
                             language: output[0][17]
                         };
+
                         if (filter !== undefined && filter(result)) {
                             processParsedLine(result);
                         }
@@ -47,6 +50,8 @@
             });
         });
 
-        rl.on('close', finished);
+        rl.on('close', function () {
+            console.log('finished reading file - caution: parsing must not be completed yet');
+        });
     };
 }());
